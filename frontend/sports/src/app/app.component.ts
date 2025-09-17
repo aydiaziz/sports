@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { AuthService } from './auth/services/auth.service';
+import { AuthService, CurrentUser } from './auth/services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -11,4 +11,8 @@ export class AppComponent {
   user$ = this.authService.currentUser$;
 
   constructor(private authService: AuthService) {}
+
+  homeLink(user: CurrentUser | null): string {
+    return this.authService.defaultRouteForRole(user?.role ?? null);
+  }
 }

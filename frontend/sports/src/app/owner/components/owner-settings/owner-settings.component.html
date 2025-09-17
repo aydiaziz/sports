@@ -1,0 +1,44 @@
+<section class="settings" *ngIf="tenant$ | async as tenant; else noTenant">
+  <h1>Paramètres du club</h1>
+  <div class="setting-group" *ngIf="profile$ | async as profile">
+    <h2>Profil owner</h2>
+    <dl>
+      <dt>Nom</dt>
+      <dd>{{ profile.first_name }} {{ profile.last_name }}</dd>
+      <dt>Email</dt>
+      <dd>{{ profile.email }}</dd>
+    </dl>
+  </div>
+  <div class="setting-group">
+    <h2>Informations générales</h2>
+    <dl>
+      <dt>Nom</dt>
+      <dd>{{ tenant.name }}</dd>
+      <dt>Slug</dt>
+      <dd>{{ tenant.slug }}</dd>
+      <dt>Email de contact</dt>
+      <dd>{{ tenant.contact_email || '—' }}</dd>
+      <dt>Adresse</dt>
+      <dd>{{ tenant.address || '—' }}</dd>
+    </dl>
+  </div>
+  <div class="setting-group">
+    <h2>Identité visuelle</h2>
+    <dl>
+      <dt>Logo</dt>
+      <dd>
+        <a *ngIf="tenant.logo_url; else noLogo" [href]="tenant.logo_url" target="_blank" rel="noopener noreferrer">
+          {{ tenant.logo_url }}
+        </a>
+        <ng-template #noLogo>—</ng-template>
+      </dd>
+      <dt>Couleur primaire</dt>
+      <dd><span class="color-swatch" [style.background]="tenant.theme_primary"></span>{{ tenant.theme_primary || '—' }}</dd>
+      <dt>Couleur secondaire</dt>
+      <dd><span class="color-swatch" [style.background]="tenant.theme_secondary"></span>{{ tenant.theme_secondary || '—' }}</dd>
+    </dl>
+  </div>
+</section>
+<ng-template #noTenant>
+  <p>Aucun tenant associé.</p>
+</ng-template>

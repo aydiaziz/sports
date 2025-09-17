@@ -1,0 +1,30 @@
+<section class="tenants-list">
+  <header>
+    <h1>Tenants</h1>
+    <button (click)="createTenant()">Nouveau tenant</button>
+  </header>
+
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <table *ngIf="!loading && tenants.length">
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Slug</th>
+        <th>Actif</th>
+        <th>Owners</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let tenant of tenants" (click)="goToTenant(tenant.id)">
+        <td>{{ tenant.name }}</td>
+        <td>{{ tenant.slug }}</td>
+        <td>{{ tenant.is_active ? 'Oui' : 'Non' }}</td>
+        <td>{{ tenant.owners_count ?? 0 }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p *ngIf="!loading && !tenants.length && !error">Aucun tenant pour le moment.</p>
+</section>

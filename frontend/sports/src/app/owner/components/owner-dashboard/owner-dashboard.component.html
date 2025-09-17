@@ -1,0 +1,5 @@
+<section class="dashboard" *ngIf="user$ | async as user">
+  <h1>Bienvenue {{ user.profile.first_name }} !</h1>
+  <p>Vous gérez actuellement le tenant <strong>{{ user.tenant?.name || '—' }}</strong>.</p>
+  <p>Les statistiques seront bientôt disponibles.</p>
+</section>

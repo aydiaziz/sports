@@ -20,18 +20,18 @@ class IsSuperAdmin(RolePermission):
     allowed_roles = (User.Role.SUPERADMIN,)
 
 
-class IsAdmin(RolePermission):
-    allowed_roles = (User.Role.ADMIN, User.Role.SUPERADMIN)
-
-
 class IsCoach(RolePermission):
-    allowed_roles = (User.Role.COACH, User.Role.ADMIN, User.Role.SUPERADMIN)
+    allowed_roles = (User.Role.COACH, User.Role.SUPERADMIN)
 
 
 class IsClient(RolePermission):
     allowed_roles = (
         User.Role.CLIENT,
         User.Role.COACH,
-        User.Role.ADMIN,
+        User.Role.OWNER,
         User.Role.SUPERADMIN,
     )
+
+
+class IsOwner(RolePermission):
+    allowed_roles = (User.Role.OWNER,)
