@@ -1,0 +1,24 @@
+<section class="accept-invite">
+  <h1>Finaliser votre accès Owner</h1>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" *ngIf="!loading; else loadingTpl">
+    <label>
+      Prénom
+      <input formControlName="first_name" type="text" />
+    </label>
+    <label>
+      Nom
+      <input formControlName="last_name" type="text" />
+    </label>
+    <label>
+      Mot de passe
+      <input formControlName="password" type="password" />
+    </label>
+    <button type="submit">Créer mon compte</button>
+  </form>
+
+  <ng-template #loadingTpl>
+    <p>Finalisation de votre inscription...</p>
+  </ng-template>
+</section>

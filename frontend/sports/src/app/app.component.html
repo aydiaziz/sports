@@ -1,14 +1,17 @@
 <div class="app-shell">
   <header class="top-bar">
-    <a routerLink="/dashboard" class="brand">Sports Admin</a>
-    <div class="spacer"></div>
-    <ng-container *ngIf="user$ | async as user; else loginLink">
+    <ng-container *ngIf="user$ | async as user; else guestLinks">
+      <a [routerLink]="homeLink(user)" class="brand">Sports Admin</a>
+      <div class="spacer"></div>
       <span class="user-badge">
-        {{ user.email }} · {{ user.role }}<span *ngIf="user.tenant"> · {{ user.tenant }}</span>
+        {{ user.profile.email }} · {{ user.role }}
+        <span *ngIf="user.tenant"> · {{ user.tenant.name }}</span>
       </span>
       <a routerLink="/auth/logout" class="logout-link">Déconnexion</a>
     </ng-container>
-    <ng-template #loginLink>
+    <ng-template #guestLinks>
+      <a [routerLink]="homeLink(null)" class="brand">Sports Admin</a>
+      <div class="spacer"></div>
       <a routerLink="/auth/login" class="login-link">Connexion</a>
     </ng-template>
   </header>

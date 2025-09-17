@@ -1,0 +1,45 @@
+.tenant-new {
+  padding: 2rem;
+  max-width: 640px;
+}
+
+form {
+  display: grid;
+  gap: 1rem;
+}
+
+label {
+  display: grid;
+  gap: 0.5rem;
+}
+
+input,
+textarea {
+  padding: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+textarea {
+  min-height: 100px;
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+button {
+  width: fit-content;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: #0070f3;
+  color: #fff;
+  cursor: pointer;
+}
+
+.error {
+  color: #d32f2f;
+}

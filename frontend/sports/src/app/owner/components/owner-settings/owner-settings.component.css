@@ -1,0 +1,24 @@
+.settings {
+  padding: 2rem;
+  display: grid;
+  gap: 2rem;
+}
+
+.setting-group dl {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 0.5rem 1.5rem;
+}
+
+.setting-group dt {
+  font-weight: 600;
+}
+
+.color-swatch {
+  display: inline-block;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}

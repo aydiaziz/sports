@@ -1,0 +1,18 @@
+<section class="tenant-new">
+  <h1>Nouveau tenant</h1>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <label>Nom<input formControlName="name" type="text" /></label>
+    <label>Slug<input formControlName="slug" type="text" /></label>
+    <label>Email de contact<input formControlName="contact_email" type="email" /></label>
+    <label>Logo<input formControlName="logo_url" type="url" /></label>
+    <label>Couleur primaire<input formControlName="theme_primary" type="text" placeholder="#123456" /></label>
+    <label>Couleur secondaire<input formControlName="theme_secondary" type="text" placeholder="#abcdef" /></label>
+    <label>Adresse<textarea formControlName="address"></textarea></label>
+    <label class="checkbox">
+      <input formControlName="is_active" type="checkbox" /> Tenant actif
+    </label>
+    <button type="submit" [disabled]="loading">Créer</button>
+  </form>
+</section>

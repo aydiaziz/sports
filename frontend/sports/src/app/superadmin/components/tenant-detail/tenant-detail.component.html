@@ -1,0 +1,48 @@
+<section class="tenant-detail" *ngIf="tenant; else loadingTpl">
+  <header>
+    <h1>{{ tenant.name }}</h1>
+    <button (click)="inviteOwner()">Inviter un owner</button>
+  </header>
+
+  <p *ngIf="info" class="info">{{ info }}</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+
+  <div class="details">
+    <div>
+      <h2>Informations</h2>
+      <dl>
+        <dt>Slug</dt><dd>{{ tenant.slug }}</dd>
+        <dt>Email</dt><dd>{{ tenant.contact_email || '—' }}</dd>
+        <dt>Adresse</dt><dd>{{ tenant.address || '—' }}</dd>
+        <dt>Actif</dt><dd>{{ tenant.is_active ? 'Oui' : 'Non' }}</dd>
+      </dl>
+    </div>
+    <div>
+      <h2>Identité visuelle</h2>
+      <dl>
+        <dt>Logo</dt>
+        <dd>
+          <a *ngIf="tenant.logo_url" [href]="tenant.logo_url" target="_blank" rel="noopener noreferrer">{{ tenant.logo_url }}</a>
+          <span *ngIf="!tenant.logo_url">—</span>
+        </dd>
+        <dt>Couleur primaire</dt><dd>{{ tenant.theme_primary || '—' }}</dd>
+        <dt>Couleur secondaire</dt><dd>{{ tenant.theme_secondary || '—' }}</dd>
+      </dl>
+    </div>
+  </div>
+
+  <section class="owners">
+    <h2>Owners</h2>
+    <p *ngIf="!tenant.owners?.length">Aucun owner pour l'instant.</p>
+    <ul>
+      <li *ngFor="let owner of tenant.owners">
+        {{ owner.first_name }} {{ owner.last_name }} - {{ owner.email }}
+      </li>
+    </ul>
+  </section>
+</section>
+
+<ng-template #loadingTpl>
+  <p *ngIf="loading">Chargement...</p>
+  <p *ngIf="error" class="error">{{ error }}</p>
+</ng-template>
