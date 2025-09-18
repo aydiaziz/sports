@@ -4,6 +4,67 @@ from django.db import migrations, models
 import django.db.models.deletion
 
 
+def _coerce_tenant_identifier(value):
+    if value is None:
+        return None
+
+    if isinstance(value, int):
+        return value
+
+    value_str = str(value).strip()
+    if not value_str:
+        return None
+
+    try:
+        return int(value_str)
+    except (TypeError, ValueError):
+        return value_str
+
+
+def forwards_convert_tenant(apps, schema_editor):
+    User = apps.get_model("accounts", "User")
+    Tenant = apps.get_model("tenants", "Tenant")
+
+    for user in User.objects.all():
+        raw_value = user.tenant
+        normalized_identifier = _coerce_tenant_identifier(raw_value)
+
+        if normalized_identifier is None:
+            user.tenant = None
+            user.save(update_fields=["tenant"])
+            continue
+
+        tenant_obj = None
+
+        if isinstance(normalized_identifier, int):
+            tenant_obj = Tenant.objects.filter(pk=normalized_identifier).first()
+        else:
+            tenant_obj = Tenant.objects.filter(slug=normalized_identifier).first()
+            if tenant_obj is None:
+                tenant_obj = Tenant.objects.filter(name=normalized_identifier).first()
+
+        if tenant_obj is None:
+            user.tenant = None
+        else:
+            user.tenant = str(tenant_obj.pk)
+
+        user.save(update_fields=["tenant"])
+
+
+def backwards_convert_tenant(apps, schema_editor):
+    User = apps.get_model("accounts", "User")
+
+    for user in User.objects.all():
+        tenant_value = user.tenant
+
+        if tenant_value is None:
+            user.tenant = ""
+        else:
+            user.tenant = str(tenant_value)
+
+        user.save(update_fields=["tenant"])
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -26,6 +87,12 @@ class Migration(migrations.Migration):
                 max_length=20,
             ),
         ),
+        migrations.AlterField(
+            model_name="user",
+            name="tenant",
+            field=models.CharField(blank=True, max_length=100, null=True),
+        ),
+        migrations.RunPython(forwards_convert_tenant, backwards_convert_tenant),
         migrations.AlterField(
             model_name="user",
             name="tenant",
