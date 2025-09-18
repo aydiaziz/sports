@@ -14,10 +14,21 @@ Ce dépôt contient une API Django REST Framework sécurisée par JWT et un port
 cd backend
 python -m venv .venv && source .venv/bin/activate  # optionnel mais recommandé
 pip install -r requirements.txt
+
+# variables utilisées par Django pour se connecter à PostgreSQL
+export DB_NAME=sports
+export DB_USER=postgres
+export DB_PASSWORD=0000
+export DB_HOST=127.0.0.1
+export DB_PORT=5432
+
 python manage.py migrate
 python manage.py createsuperuser  # le rôle SUPERADMIN est appliqué automatiquement
 python manage.py runserver  # l'API écoute sur http://localhost:8000
 ```
+
+> ℹ️ La configuration pointe désormais uniquement vers PostgreSQL (`django.db.backends.postgresql`).
+> Adaptez les variables d'environnement ci-dessus selon votre instance.
 
 ### Endpoints principaux
 
