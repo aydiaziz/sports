@@ -7,7 +7,14 @@ class UserManager(BaseUserManager):
     def create_user(self, email, password=None, role=None, tenant=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
+
         email = self.normalize_email(email)
+        if email:
+            email = email.strip()
+        if not email:
+            raise ValueError('Users must have an email address')
+        email = email.lower()
+
         role = role or self.model.Role.CLIENT
         if role not in dict(self.model.Role.choices):
             raise ValueError('Invalid role provided')

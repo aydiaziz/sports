@@ -74,6 +74,21 @@ class EmailTokenObtainPairSerializer(TokenObtainPairSerializer):
         return token
 
     def validate(self, attrs):
+        email = attrs.get(self.username_field)
+        if email is not None:
+            normalized_email = email.strip()
+            if normalized_email:
+                attrs[self.username_field] = normalized_email
+                matching_user = User.objects.filter(
+                    **{f'{self.username_field}__iexact': normalized_email}
+                ).first()
+                if matching_user:
+                    attrs[self.username_field] = getattr(
+                        matching_user, self.username_field
+                    )
+            else:
+                attrs[self.username_field] = normalized_email
+
         data = super().validate(attrs)
         data.update(
             {
